@@ -20,7 +20,6 @@ public class Playlist {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id")
     private User creator;
 
     @ManyToMany

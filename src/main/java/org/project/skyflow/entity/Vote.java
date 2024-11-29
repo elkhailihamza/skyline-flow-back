@@ -15,11 +15,9 @@ public class Vote {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User voter;
 
     @ManyToOne
-    @JoinColumn(name = "content_id")
     private Content content;
     private boolean isUpvoted;
 }

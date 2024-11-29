@@ -22,7 +22,6 @@ public class Content {
     private String description;
 
     @ManyToOne()
-    @JoinColumn(name = "creator_id")
     private Account creator;
 
     private LocalDateTime uploadDate;
@@ -31,7 +30,6 @@ public class Content {
     private ContentStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToOne(fetch = FetchType.LAZY)

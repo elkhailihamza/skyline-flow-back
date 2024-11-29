@@ -23,7 +23,6 @@ public class Opinion {
     private Account creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "content_id")
     private Content content;
 
 }

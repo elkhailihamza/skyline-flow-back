@@ -40,10 +40,9 @@ public class User {
     private Role role;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToMany(mappedBy = "following")
+    @OneToMany(mappedBy = "follower")
     private List<Follow> followings;
 
     @OneToMany(mappedBy = "voter")

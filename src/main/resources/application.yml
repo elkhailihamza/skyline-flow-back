@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: skyflow
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skyflow
+    username: root
+    password: ;(.314Luiv./
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8081

@@ -26,7 +26,7 @@ public class Account {
     private String profilePicture;
     private LocalDate createdAt;
 
-    @OneToMany(mappedBy = "follower")
+    @OneToMany(mappedBy = "following")
     private List<Follow> followers;
 
     @OneToMany(mappedBy = "creator")
