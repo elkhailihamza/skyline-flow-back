@@ -1,4 +1,4 @@
-package org.project.skyflow.entity;
+package org.project.skyflow.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,12 +9,15 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notification {
+public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String message;
 
     @ManyToOne
-    private User user;
+    private User voter;
+
+    @ManyToOne
+    private Content content;
+    private boolean isUpvoted;
 }

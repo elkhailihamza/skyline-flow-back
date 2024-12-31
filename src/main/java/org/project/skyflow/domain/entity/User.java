@@ -1,4 +1,4 @@
-package org.project.skyflow.entity;
+package org.project.skyflow.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

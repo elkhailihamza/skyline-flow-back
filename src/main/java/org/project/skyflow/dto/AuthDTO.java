@@ -25,7 +25,7 @@ public class AuthDTO {
     @Size(min = 8, message = "Password must be at least 8 characters long!", groups = AuthRegister.class)
     @Pattern(
             regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
-            message = "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character!",
+            message = "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character from the following [#, ?, !, @, $, %, ^, &, *, -]!",
             groups = AuthRegister.class
     )
     private String password;

@@ -1,7 +1,7 @@
 package org.project.skyflow.config.security;
 
 import lombok.RequiredArgsConstructor;
-import org.project.skyflow.entity.User;
+import org.project.skyflow.domain.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

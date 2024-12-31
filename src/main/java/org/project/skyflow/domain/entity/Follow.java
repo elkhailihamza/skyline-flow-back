@@ -1,8 +1,8 @@
-package org.project.skyflow.entity;
+package org.project.skyflow.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.project.skyflow.entity.type.FollowType;
+import org.project.skyflow.domain.entity.type.FollowType;
 
 @Entity
 @Builder

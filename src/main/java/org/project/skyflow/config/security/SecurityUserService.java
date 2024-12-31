@@ -2,7 +2,7 @@ package org.project.skyflow.config.security;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.project.skyflow.entity.User;
+import org.project.skyflow.domain.entity.User;
 import org.project.skyflow.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
