@@ -3,9 +3,7 @@ package org.project.skyflow.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -31,8 +29,8 @@ public class User {
     @Column(name = "\"password\"", nullable = false)
     private String password;
 
-    @OneToMany
-    private List<Suspension> suspension;
+    @OneToMany(mappedBy = "user")
+    private List<Suspension> suspensions;
     private boolean isSuspended;
     private boolean isActive;
 
