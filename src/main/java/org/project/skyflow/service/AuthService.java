@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AuthService {
-    void Register(AuthDTO authDTO);
-    void Login(AuthDTO authDTO);
+    void login(AuthDTO authDTO);
+    void register(AuthDTO authDTO);
 }

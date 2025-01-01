@@ -1,6 +1,11 @@
 spring:
   application:
     name: skyflow
+    jwt:
+      jwtSecret: xNsjrTXGsixTwuDycZxOqOMiFZpuznctbsbTULYbueULJKCpTD
+      jwtRefreshSecret: IGmDcIIpXMIGkYtdlBbAmGCIgkNWMhvObaaPSkUXmrqBlKQQRX
+      jwtExpirationMs: 86400000
+      jwtRefreshTokenExpirationMs: 604800000
 
   datasource:
     url: jdbc:postgresql://localhost:5432/skyflow

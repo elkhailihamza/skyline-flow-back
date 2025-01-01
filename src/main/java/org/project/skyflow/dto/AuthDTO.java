@@ -8,8 +8,8 @@ import lombok.Data;
 
 @Data
 public class AuthDTO {
-    private interface AuthLogin {}
-    private interface AuthRegister {}
+    public interface AuthLogin {}
+    public interface AuthRegister {}
 
     @NotNull(message = "Name cannot be null!", groups = AuthRegister.class)
     private String name;
