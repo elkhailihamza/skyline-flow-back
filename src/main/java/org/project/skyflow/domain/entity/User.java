@@ -1,19 +1,17 @@
-package org.project.skyflow.entity;
+package org.project.skyflow.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.project.skyflow.entity.type.Role;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "\"user\"")
-@Builder
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "\"user\"")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +29,18 @@ public class User {
     @Column(name = "\"password\"", nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Suspension> suspensions;
     private boolean isSuspended;
-    private String suspensionReason;
-    private LocalDateTime suspensionEndTime;
     private boolean isActive;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Account account;

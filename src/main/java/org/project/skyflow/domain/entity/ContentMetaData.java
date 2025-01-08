@@ -1,11 +1,11 @@
-package org.project.skyflow.entity;
+package org.project.skyflow.domain.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.*;
-import org.project.skyflow.entity.type.ProcessingStatus;
+import org.project.skyflow.domain.entity.type.ProcessingStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

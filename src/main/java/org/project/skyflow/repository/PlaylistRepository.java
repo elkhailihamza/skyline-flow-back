@@ -1,6 +1,6 @@
 package org.project.skyflow.repository;
 
-import org.project.skyflow.entity.Playlist;
+import org.project.skyflow.domain.entity.Playlist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
