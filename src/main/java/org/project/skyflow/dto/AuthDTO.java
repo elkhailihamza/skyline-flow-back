@@ -5,8 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.project.skyflow.util.annotation.PasswordMatch;
 
 @Data
+@PasswordMatch(groups = AuthDTO.AuthRegister.class)
 public class AuthDTO {
     public interface AuthLogin {}
     public interface AuthRegister {}
