@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthImpl implements Auth{
+public class AuthFacadeImpl implements AuthFacade {
     @Override
     public SecurityUser getSecurityUser() {
         Authentication authentication;
