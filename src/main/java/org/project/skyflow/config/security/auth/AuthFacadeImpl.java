@@ -11,19 +11,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthFacadeImpl implements AuthFacade {
     @Override
-    public SecurityUser getSecurityUser() {
+    public SecurityUser getAuthenticatedUser() {
         Authentication authentication;
         authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            return (SecurityUser) authentication.getPrincipal();
+        if (authentication != null && authentication.getPrincipal() != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                return (SecurityUser) authentication.getPrincipal();
+            }
         }
 
         throw new AuthenticationCredentialsNotFoundException("User is not authenticated!");
     }
 
     @Override
-    public String getUsername() {
-        SecurityUser securityUser = this.getSecurityUser();
+    public String getUserName() {
+        SecurityUser securityUser = this.getAuthenticatedUser();
         if (securityUser.getUsername() != null) {
             return securityUser.getUsername();
         }
@@ -32,7 +35,7 @@ public class AuthFacadeImpl implements AuthFacade {
 
     @Override
     public long getUserId() {
-        SecurityUser securityUser = this.getSecurityUser();
+        SecurityUser securityUser = this.getAuthenticatedUser();
         return securityUser.getId();
     }
 }
