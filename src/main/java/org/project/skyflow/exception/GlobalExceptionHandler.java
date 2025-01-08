@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ExceptionDetails> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex, WebRequest request) {
         ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
