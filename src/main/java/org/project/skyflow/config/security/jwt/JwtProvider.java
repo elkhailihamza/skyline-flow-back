@@ -51,7 +51,6 @@ public class JwtProvider {
 
     public String generateTokenFromUsername(SecurityUser securityUser) {
         String username = securityUser.getUsername();
-        long id = securityUser.getId();
         Collection<? extends GrantedAuthority> roles = securityUser.getAuthorities();
 
         List<String> roleNames = roles.stream()
@@ -61,7 +60,7 @@ public class JwtProvider {
                 .collect(Collectors.toList());
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("id", id);
+        claims.put("id", (Long) securityUser.getId());
         claims.put("roles", roleNames);
 
         return Jwts.builder()
