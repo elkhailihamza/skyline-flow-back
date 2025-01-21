@@ -22,8 +22,8 @@ public class DefaultUserMapperImpl implements DefaultUserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .surname(user.getSurname())
+                .email(user.getEmail())
                 .roles(user.getRoles().stream().map(Role::getName).toList())
-                .isActive(user.isActive())
                 .account(accountMapper.toAccountDTO(user.getAccount()))
                 .followings(user.getFollowings().stream().map(Follow::getId).toList())
                 .votes(user.getVotes().stream().map(Vote::getId).toList());

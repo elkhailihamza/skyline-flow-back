@@ -12,7 +12,6 @@ public class ProfileDTO {
     private String name;
     private String surname;
     private String email;
-    private boolean isActive;
     private List<String> roles;
     private AccountDTO account;
     private List<Long> followings;
