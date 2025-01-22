@@ -62,4 +62,10 @@ public class GlobalExceptionHandler {
         ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
         return new ResponseEntity<>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(AccountAlreadyExistsException.class)
+    public ResponseEntity<ExceptionDetails> handleAccountAlreadyExistsException(AccountAlreadyExistsException ex, WebRequest request) {
+        ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
 }

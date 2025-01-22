@@ -1,0 +1,7 @@
+package org.project.skyflow.exception;
+
+public class AccountAlreadyExistsException extends RuntimeException {
+    public AccountAlreadyExistsException(String message) {
+        super(message);
+    }
+}

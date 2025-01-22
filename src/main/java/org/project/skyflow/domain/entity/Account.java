@@ -23,7 +23,7 @@ public class Account {
     private String username;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "account")
+    @OneToOne
     private User user;
 
     private String bio;

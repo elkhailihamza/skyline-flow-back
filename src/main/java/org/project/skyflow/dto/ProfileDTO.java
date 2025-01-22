@@ -3,6 +3,7 @@ package org.project.skyflow.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -14,6 +15,6 @@ public class ProfileDTO {
     private String email;
     private List<String> roles;
     private AccountDTO account;
-    private List<Long> followings;
-    private List<Long> votes;
+    private long followingsCount;
+    private LocalDate createdAt;
 }

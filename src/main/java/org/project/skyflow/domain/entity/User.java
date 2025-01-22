@@ -31,7 +31,7 @@ public class User {
     private String password;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Suspension> suspensions;
     private boolean isSuspended;
     private boolean isActive;
@@ -46,14 +46,14 @@ public class User {
     private List<Role> roles;
 
     @JsonManagedReference
-    @OneToOne
+    @OneToOne(mappedBy = "user")
     private Account account;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "follower", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY)
     private List<Follow> followings;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "voter", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "voter", fetch = FetchType.LAZY)
     private List<Vote> votes;
 }
