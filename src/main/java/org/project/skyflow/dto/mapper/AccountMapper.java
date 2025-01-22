@@ -13,4 +13,6 @@ public interface AccountMapper {
     @Mapping(target = "contentCount", ignore = true)
     AccountDTO toAccountDTO(Account account);
 
+    @Mapping(source = "user", target = "user.id")
+    Account toAccount(AccountDTO accountDTO);
 }

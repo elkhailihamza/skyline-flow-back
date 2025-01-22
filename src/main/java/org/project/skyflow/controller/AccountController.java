@@ -22,4 +22,9 @@ public class AccountController {
     public ResponseEntity<AccountDTO> viewAccount(@PathVariable long accountId) {
         return ResponseEntity.ok(accountService.fetchAccount(accountId));
     }
+
+    @PostMapping("/{accountId}/update")
+    public ResponseEntity<AccountDTO> updateAccount(@PathVariable long accountId, @RequestBody @Validated(AccountDTO.AccountUpdate.class) AccountDTO accountDTO) {
+        return ResponseEntity.ok(accountService.updateAccount(accountId, accountDTO));
+    }
 }

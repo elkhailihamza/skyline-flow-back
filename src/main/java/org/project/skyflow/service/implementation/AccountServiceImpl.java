@@ -9,6 +9,7 @@ import org.project.skyflow.dto.AccountDTO;
 import org.project.skyflow.dto.mapper.AccountMapper;
 import org.project.skyflow.dto.mapper.DefaultAccountMapper;
 import org.project.skyflow.exception.AccountAlreadyExistsException;
+import org.project.skyflow.exception.ItemNotOwnedException;
 import org.project.skyflow.repository.AccountRepository;
 import org.project.skyflow.repository.ContentRepository;
 import org.project.skyflow.repository.FollowRepository;
@@ -16,6 +17,8 @@ import org.project.skyflow.service.AccountService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,6 +63,22 @@ public class AccountServiceImpl implements AccountService {
         accountDTO.setContentCount(contentCount);
 
         return accountDTO;
+    }
+
+    @Override
+    public AccountDTO updateAccount(long accountId, AccountDTO accountDTO) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found!"));
+
+        if (account.getUser().getId() != auth.getUserId()) {
+            throw new ItemNotOwnedException("Account not owned by user!");
+        }
+
+        account.setUsername(Optional.ofNullable(accountDTO.getUsername()).orElse(account.getUsername()));
+        account.setBio(Optional.ofNullable(accountDTO.getBio()).orElse(account.getBio()));
+        account.setProfilePicture(Optional.ofNullable(accountDTO.getProfilePicture()).orElse(account.getProfilePicture()));
+
+        return accountMapper.toAccountDTO(accountRepository.save(account));
     }
 
 

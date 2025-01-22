@@ -1,7 +1,7 @@
 package org.project.skyflow.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.project.skyflow.dto.content.HomeContentDTO;
+import org.project.skyflow.dto.HomeContentDTO;
 import org.project.skyflow.service.ContentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
