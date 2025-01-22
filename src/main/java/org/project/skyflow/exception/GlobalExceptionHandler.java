@@ -68,4 +68,25 @@ public class GlobalExceptionHandler {
         ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
         return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ItemNotOwnedException.class)
+    public ResponseEntity<ExceptionDetails> handleItemNotOwnedException(ItemNotOwnedException ex, WebRequest request) {
+        ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
+<<<<<<< Updated upstream
+=======
+
+    @ExceptionHandler(ItemAlreadyExistsException.class)
+    public ResponseEntity<ExceptionDetails> handleItemAlreadyExistsException(ItemAlreadyExistsException ex, WebRequest request) {
+        ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(WhyWouldYouDoThisException.class)
+    public ResponseEntity<ExceptionDetails> handleWhyWouldYouDoThisException(WhyWouldYouDoThisException ex, WebRequest request) {
+        ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
+>>>>>>> Stashed changes
 }

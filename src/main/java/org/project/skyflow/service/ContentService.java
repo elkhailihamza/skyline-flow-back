@@ -1,6 +1,6 @@
 package org.project.skyflow.service;
 
-import org.project.skyflow.dto.content.HomeContentDTO;
+import org.project.skyflow.dto.HomeContentDTO;
 
 import java.util.List;
 

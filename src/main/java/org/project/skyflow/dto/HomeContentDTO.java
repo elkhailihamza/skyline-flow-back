@@ -1,4 +1,4 @@
-package org.project.skyflow.dto.content;
+package org.project.skyflow.dto;
 
 import org.project.skyflow.domain.entity.*;
 

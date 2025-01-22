@@ -1,7 +1,7 @@
 package org.project.skyflow.service.implementation;
 
 import lombok.RequiredArgsConstructor;
-import org.project.skyflow.dto.content.HomeContentDTO;
+import org.project.skyflow.dto.HomeContentDTO;
 import org.project.skyflow.dto.mapper.ContentMapper;
 import org.project.skyflow.repository.ContentRepository;
 import org.project.skyflow.service.ContentService;
