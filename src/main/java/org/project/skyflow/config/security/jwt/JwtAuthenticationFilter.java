@@ -5,32 +5,36 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
 
-@Component
-public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    private final JwtProvider tokenProvider;
+public class JwtAuthenticationFilter extends JwtAuthenticationFilterProcessor {
+    private final JwtProvider jwtProvider;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider tokenProvider) {
-        super("/api/**");
+    public JwtAuthenticationFilter(JwtProvider jwtProvider, AuthenticationManager authenticationManager) {
+        this.jwtProvider = jwtProvider;
         setAuthenticationManager(authenticationManager);
-        this.tokenProvider = tokenProvider;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        String token = tokenProvider.getJwtFromHeader(request);
-        return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(null, token));
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        attemptAuthentication(request, response, filterChain);
+        filterChain.doFilter(request, response);
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
+    public void attemptAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+
+        String token = jwtProvider.getJwtFromHeader(request);
+        if (token != null && jwtProvider.validateJwtToken(token, false)) {
+            Authentication authentication = getAuthenticationManager().authenticate(new JwtAuthenticationToken(null, token));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
 }

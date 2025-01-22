@@ -1,5 +1,6 @@
 package org.project.skyflow.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,10 +15,13 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonBackReference
     @ManyToOne
     private User voter;
 
+    @JsonBackReference
     @ManyToOne
     private Content content;
+
     private boolean isUpvoted;
 }

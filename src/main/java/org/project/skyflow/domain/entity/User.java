@@ -1,5 +1,6 @@
 package org.project.skyflow.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,11 +30,13 @@ public class User {
     @Column(name = "\"password\"", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Suspension> suspensions;
     private boolean isSuspended;
     private boolean isActive;
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -42,12 +45,15 @@ public class User {
     )
     private List<Role> roles;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user")
     private Account account;
 
-    @OneToMany(mappedBy = "follower")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY)
     private List<Follow> followings;
 
-    @OneToMany(mappedBy = "voter")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "voter", fetch = FetchType.LAZY)
     private List<Vote> votes;
 }

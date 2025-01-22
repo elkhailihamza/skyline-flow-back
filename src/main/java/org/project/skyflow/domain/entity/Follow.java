@@ -1,5 +1,6 @@
 package org.project.skyflow.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.project.skyflow.domain.entity.type.FollowType;
@@ -16,9 +17,11 @@ public class Follow {
     private long id;
     private FollowType planType;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private User follower;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private Account following;
 
