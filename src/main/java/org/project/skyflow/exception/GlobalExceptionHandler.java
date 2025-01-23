@@ -74,8 +74,6 @@ public class GlobalExceptionHandler {
         ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
         return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
     }
-<<<<<<< Updated upstream
-=======
 
     @ExceptionHandler(ItemAlreadyExistsException.class)
     public ResponseEntity<ExceptionDetails> handleItemAlreadyExistsException(ItemAlreadyExistsException ex, WebRequest request) {
@@ -88,5 +86,4 @@ public class GlobalExceptionHandler {
         ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
         return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
     }
->>>>>>> Stashed changes
 }

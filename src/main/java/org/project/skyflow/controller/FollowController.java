@@ -14,9 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class FollowController {
     private final FollowService followService;
 
-    @PostMapping("/{accountId}")
+    @PostMapping("/{accountId}/follow")
     public ResponseEntity<String> sendFollow(@PathVariable long accountId) {
         followService.followAccount(accountId);
         return ResponseEntity.ok("Followed account successfully!");
+    }
+
+    @PostMapping("/{accountId}/unfollow")
+    public ResponseEntity<String> sendUnfollow(@PathVariable long accountId) {
+        followService.unfollowAccount(accountId);
+        return ResponseEntity.ok("Unfollowed account successfully!");
     }
 }
