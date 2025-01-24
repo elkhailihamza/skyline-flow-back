@@ -88,9 +88,15 @@
 			<artifactId>jjwt-api</artifactId>
 			<version>0.12.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.bytedeco</groupId>
+			<artifactId>ffmpeg</artifactId>
+			<version>7.1-1.5.11</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>skyflow-back</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

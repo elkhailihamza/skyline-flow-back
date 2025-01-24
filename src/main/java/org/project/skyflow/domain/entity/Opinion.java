@@ -18,11 +18,11 @@ public class Opinion {
 
     private String text;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Account creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Content content;
-
 }
