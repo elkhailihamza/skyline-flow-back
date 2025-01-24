@@ -76,4 +76,21 @@ public class AuthServiceImpl implements AuthService {
                 .expDate(expDate)
                 .build();
     }
+
+    @Override
+    public AuthTokenDTO refreshTokens(AuthTokenDTO authTokenDTO) {
+        String refreshToken = authTokenDTO.getJwtRefreshToken();
+
+        if (!jwtProvider.validateJwtToken(refreshToken, true)) {
+            throw new SecurityException("Invalid or expired refresh token");
+        }
+
+        String username = jwtProvider.getUserNameFromJwtToken(refreshToken, true);
+
+        User user = repository.findByEmail(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        SecurityUser securityUser = new SecurityUser(user);
+        return generateResponseInfo(securityUser);
+    }
 }

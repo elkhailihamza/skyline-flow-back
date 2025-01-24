@@ -50,9 +50,4 @@ public class ApplicationConfig {
     public AuthenticationProvider jwtAuthenticationProvider() {
         return new JwtAuthenticationProvider(jwtProvider, securityUserService);
     }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-        return new JwtAuthenticationFilter(jwtProvider, authenticationManager);
-    }
 }

@@ -20,9 +20,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final UnauthorizedHandler unauthorizedHandler;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                         .requestMatchers("/auth/register", "/auth/login").permitAll()

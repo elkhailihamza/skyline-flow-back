@@ -121,4 +121,12 @@ public class JwtProvider {
     public Date getExpirationDate() {
         return new Date((new Date()).getTime() + jwtExpirationMs);
     }
+
+    public String getRefreshTokenFromHeader(HttpServletRequest request) {
+        String refreshToken = request.getHeader("refresh_token");
+        if (refreshToken != null && refreshToken.startsWith("Refresher ")) {
+            return refreshToken.substring(10);
+        }
+        return null;
+    }
 }

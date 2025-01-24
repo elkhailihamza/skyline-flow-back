@@ -10,4 +10,5 @@ public interface AuthService {
     AuthTokenDTO login(AuthDTO authDTO);
     AuthTokenDTO register(AuthDTO authDTO);
     AuthTokenDTO generateResponseInfo(SecurityUser securityUser);
+    AuthTokenDTO refreshTokens(AuthTokenDTO authTokenDTO);
 }
