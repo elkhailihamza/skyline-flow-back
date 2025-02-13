@@ -118,8 +118,8 @@ public class JwtProvider {
         }
     }
 
-    public Date getExpirationDate() {
-        return new Date((new Date()).getTime() + jwtExpirationMs);
+    public Date getExpirationDate(boolean isRefreshToken) {
+        return new Date((new Date()).getTime() + (isRefreshToken ? jwtRefreshTokenExpirationMs : jwtExpirationMs));
     }
 
     public String getRefreshTokenFromHeader(HttpServletRequest request) {

@@ -4,6 +4,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.project.skyflow.dto.AuthTokenDTO;
+import org.project.skyflow.service.AuthService;
+import org.project.skyflow.service.JwtTokenService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -11,13 +14,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Component
 public class JwtAuthenticationFilter extends JwtAuthenticationFilterProcessor {
     private final JwtProvider jwtProvider;
+    private final AuthService authService;
+    private final JwtTokenService jwtTokenService;
 
-    public JwtAuthenticationFilter(JwtProvider jwtProvider, @Lazy AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(JwtProvider jwtProvider, @Lazy AuthenticationManager authenticationManager, @Lazy AuthService authService, JwtTokenService jwtTokenService) {
         this.jwtProvider = jwtProvider;
+        this.authService = authService;
+        this.jwtTokenService = jwtTokenService;
         setAuthenticationManager(authenticationManager);
     }
 
@@ -39,7 +47,16 @@ public class JwtAuthenticationFilter extends JwtAuthenticationFilterProcessor {
 
         if (refreshToken != null) {
             if (jwtProvider.isJwtExpired(token, false) && !jwtProvider.isJwtExpired(refreshToken, true)) {
-                // skip for now
+                AuthTokenDTO authTokenDTO = authService.refreshTokens(AuthTokenDTO.builder().jwtRefreshToken(refreshToken).build());
+                Date expirationTime = authTokenDTO.getExpDate();
+
+                response.setHeader("Authorization", "Bearer "+authTokenDTO.getJwtToken());
+                response.setHeader("Refresh-Token", "Refresher "+authTokenDTO.getJwtRefreshToken());
+                response.setHeader("Jwt-Expiration-Time", String.valueOf(expirationTime));
+
+                jwtTokenService.stockToken(authTokenDTO);
+
+                token = authTokenDTO.getJwtToken();
             }
         }
 

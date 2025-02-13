@@ -69,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthTokenDTO generateResponseInfo(SecurityUser securityUser) {
         String jwtToken = jwtProvider.generateTokenFromUsername(securityUser);
         String refreshToken = jwtProvider.generateRefreshTokenFromUsername(securityUser);
-        Date expDate = jwtProvider.getExpirationDate();
+        Date expDate = jwtProvider.getExpirationDate(false);
         return AuthTokenDTO.builder()
                 .jwtToken(jwtToken)
                 .jwtRefreshToken(refreshToken)
