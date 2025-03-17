@@ -1,6 +1,7 @@
 package org.project.skyflow.service.implementation;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.project.skyflow.config.security.SecurityUser;
 import org.project.skyflow.config.security.jwt.JwtProvider;
@@ -8,11 +9,13 @@ import org.project.skyflow.domain.entity.Role;
 import org.project.skyflow.domain.entity.User;
 import org.project.skyflow.dto.AuthDTO;
 import org.project.skyflow.dto.AuthTokenDTO;
+import org.project.skyflow.dto.UserDTO;
 import org.project.skyflow.dto.mapper.UserMapper;
 import org.project.skyflow.exception.EmailAlreadyExistsException;
 import org.project.skyflow.repository.RoleRepository;
 import org.project.skyflow.repository.UserRepository;
 import org.project.skyflow.service.AuthService;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,12 +37,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthTokenDTO login(AuthDTO authDTO) {
-        Authentication authentication;
-        authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+
         return generateResponseInfo(securityUser);
     }
 
@@ -69,11 +70,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthTokenDTO generateResponseInfo(SecurityUser securityUser) {
         String jwtToken = jwtProvider.generateTokenFromUsername(securityUser);
         String refreshToken = jwtProvider.generateRefreshTokenFromUsername(securityUser);
-        Date expDate = jwtProvider.getExpirationDate(false);
         return AuthTokenDTO.builder()
                 .jwtToken(jwtToken)
                 .jwtRefreshToken(refreshToken)
-                .expDate(expDate)
+                .jwtExpDate(jwtProvider.getExpirationDate(false))
+                .jwtRefreshExpDate(jwtProvider.getExpirationDate(true))
                 .build();
     }
 
@@ -92,5 +93,10 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityUser securityUser = new SecurityUser(user);
         return generateResponseInfo(securityUser);
+    }
+
+    @Override
+    public UserDTO getCurrentUser(AuthTokenDTO authTokenDTO) {
+        return null;
     }
 }

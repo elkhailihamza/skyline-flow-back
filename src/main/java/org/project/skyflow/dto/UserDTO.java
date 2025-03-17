@@ -3,18 +3,18 @@ package org.project.skyflow.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Builder
-public class ProfileDTO {
+public class UserDTO {
     private long id;
     private String name;
     private String surname;
     private String email;
+    private List<SuspensionDTO> suspensions;
+    private boolean isSuspended;
+    private boolean isActive;
     private List<RoleDTO> roles;
     private AccountDTO account;
-    private long followingsCount;
-    private LocalDate createdAt;
 }

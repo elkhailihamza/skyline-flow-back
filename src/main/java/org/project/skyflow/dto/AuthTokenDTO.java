@@ -10,5 +10,6 @@ import java.util.Date;
 public class AuthTokenDTO {
     String jwtToken;
     String jwtRefreshToken;
-    Date expDate;
+    Date jwtExpDate;
+    Date jwtRefreshExpDate;
 }

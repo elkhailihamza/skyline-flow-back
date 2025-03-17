@@ -8,11 +8,11 @@ import org.project.skyflow.dto.AccountDTO;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
 
-    @Mapping(source = "user.id", target = "user")
+    @Mapping(source = "user.id", target = "user.id")
     @Mapping(target = "followerCount", ignore = true)
     @Mapping(target = "contentCount", ignore = true)
     AccountDTO toAccountDTO(Account account);
 
-    @Mapping(source = "user", target = "user.id")
+    @Mapping(source = "user.id", target = "user.id")
     Account toAccount(AccountDTO accountDTO);
 }

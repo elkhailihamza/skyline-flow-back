@@ -23,7 +23,7 @@ public class AccountDTO {
     )
     private String username;
 
-    private Long user;
+    private UserDTO user;
 
     @Pattern(
             regexp = "^\\s*$|^.{1,275}$",

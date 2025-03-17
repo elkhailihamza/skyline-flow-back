@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -85,5 +86,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDetails> handleWhyWouldYouDoThisException(WhyWouldYouDoThisException ex, WebRequest request) {
         ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
         return new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ExceptionDetails> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+        ExceptionDetails exceptionDetails = new ExceptionDetails(ex.getMessage(), new Date(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
     }
 }

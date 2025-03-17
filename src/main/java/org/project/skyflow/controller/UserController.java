@@ -2,6 +2,7 @@ package org.project.skyflow.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.project.skyflow.dto.ProfileDTO;
+import org.project.skyflow.dto.UserPublicInfoDTO;
 import org.project.skyflow.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,5 +19,11 @@ public class UserController {
     public ResponseEntity<ProfileDTO> viewProfile() {
         ProfileDTO profileDTO = userService.viewProfile();
         return ResponseEntity.ok(profileDTO);
+    }
+
+    @GetMapping("/short_details")
+    public ResponseEntity<UserPublicInfoDTO> viewShortDetails() {
+        UserPublicInfoDTO userPublicInfoDTO = userService.viewShortDetails();
+        return ResponseEntity.ok(userPublicInfoDTO);
     }
 }

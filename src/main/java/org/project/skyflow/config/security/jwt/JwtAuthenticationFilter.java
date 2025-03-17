@@ -2,6 +2,7 @@ package org.project.skyflow.config.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.project.skyflow.dto.AuthTokenDTO;
@@ -37,32 +38,27 @@ public class JwtAuthenticationFilter extends JwtAuthenticationFilterProcessor {
 
     @Override
     public void attemptAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
-        }
+        Cookie[] userCookies = request.getCookies();
 
-        String token = jwtProvider.getJwtFromHeader(request);
-        String refreshToken = jwtProvider.getRefreshTokenFromHeader(request);
+        if (userCookies != null) {
+            String token = jwtProvider.getJwtFromHeader(request);
+            String refreshToken = jwtProvider.getRefreshTokenFromHeader(request);
 
-        if (refreshToken != null) {
-            if (jwtProvider.isJwtExpired(token, false) && !jwtProvider.isJwtExpired(refreshToken, true)) {
-                AuthTokenDTO authTokenDTO = authService.refreshTokens(AuthTokenDTO.builder().jwtRefreshToken(refreshToken).build());
-                Date expirationTime = authTokenDTO.getExpDate();
+            if (refreshToken != null) {
+                if (jwtProvider.isJwtExpired(token, false) && !jwtProvider.isJwtExpired(refreshToken, true)) {
+                    AuthTokenDTO authTokenDTO = authService.refreshTokens(AuthTokenDTO.builder().jwtRefreshToken(refreshToken).build());
 
-                response.setHeader("Authorization", "Bearer "+authTokenDTO.getJwtToken());
-                response.setHeader("Refresh-Token", "Refresher "+authTokenDTO.getJwtRefreshToken());
-                response.setHeader("Jwt-Expiration-Time", String.valueOf(expirationTime));
+                    authTokenDTO = authService.refreshTokens(authTokenDTO);
+                    jwtProvider.setCookies(authTokenDTO, response);
 
-                jwtTokenService.stockToken(authTokenDTO);
-
-                token = authTokenDTO.getJwtToken();
+                    token = authTokenDTO.getJwtToken();
+                }
             }
-        }
 
-        if (token != null && jwtProvider.validateJwtToken(token, false)) {
-            Authentication authentication = getAuthenticationManager().authenticate(new JwtAuthenticationToken(null, token));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (token != null && jwtProvider.validateJwtToken(token, false)) {
+                Authentication authentication = getAuthenticationManager().authenticate(new JwtAuthenticationToken(null, token));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
     }
 }

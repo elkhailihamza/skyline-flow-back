@@ -1,5 +1,7 @@
 package org.project.skyflow.dto;
 
+import lombok.Builder;
+import lombok.Data;
 import org.project.skyflow.domain.entity.*;
 import org.project.skyflow.domain.entity.type.ContentStatus;
 
@@ -7,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+@Data
+@Builder
 public class ContentDTO {
     private long id;
     private String title;

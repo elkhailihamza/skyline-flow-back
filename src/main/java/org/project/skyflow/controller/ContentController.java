@@ -24,4 +24,9 @@ public class ContentController {
         contentService.createContent();
         return ResponseEntity.ok("test");
     }
+
+//    @PostMapping("/assign/category")
+//    public ResponseEntity<String> assignToCategory(Category) {
+//
+//    }
 }

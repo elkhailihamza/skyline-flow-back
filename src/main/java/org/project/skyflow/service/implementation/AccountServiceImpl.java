@@ -7,7 +7,6 @@ import org.project.skyflow.domain.entity.Account;
 import org.project.skyflow.domain.entity.User;
 import org.project.skyflow.dto.AccountDTO;
 import org.project.skyflow.dto.mapper.AccountMapper;
-import org.project.skyflow.dto.mapper.DefaultAccountMapper;
 import org.project.skyflow.exception.AccountAlreadyExistsException;
 import org.project.skyflow.exception.ItemNotOwnedException;
 import org.project.skyflow.repository.AccountRepository;
@@ -23,7 +22,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
-    private final DefaultAccountMapper defaultAccountMapper;
     private final AuthFacade auth;
     private final AccountMapper accountMapper;
     private final FollowRepository followRepository;
@@ -45,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
                 .createdAt(LocalDate.now())
                 .build();
 
-        return defaultAccountMapper.toAccountDTO(accountRepository.save(account));
+        return accountMapper.toAccountDTO(accountRepository.save(account));
     }
 
     @Override

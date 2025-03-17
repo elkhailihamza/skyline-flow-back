@@ -4,9 +4,12 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.project.skyflow.config.security.SecurityUser;
+import org.project.skyflow.dto.AuthTokenDTO;
 import org.project.skyflow.exception.JwtValidationException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -60,7 +63,8 @@ public class JwtProvider {
                 .collect(Collectors.toList());
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("id", (Long) securityUser.getId());
+        claims.put("id", securityUser.getId());
+        claims.put("email", securityUser.getUsername());
         claims.put("roles", roleNames);
 
         return Jwts.builder()
@@ -128,5 +132,34 @@ public class JwtProvider {
             return refreshToken.substring(10);
         }
         return null;
+    }
+
+    public int getExpirationInSeconds(boolean isRefreshToken) {
+        long expirationMs = isRefreshToken ? jwtRefreshTokenExpirationMs : jwtExpirationMs;
+        long expirationTime = System.currentTimeMillis() + expirationMs;
+        return (int) ((expirationTime - System.currentTimeMillis()) / 1000);
+    }
+
+    public ResponseCookie setResponseCookie(AuthTokenDTO authTokenDTO, boolean isRefreshToken) {
+        String cookieName = isRefreshToken ? "refreshToken" : "jwt";
+        String tokenValue = isRefreshToken ? authTokenDTO.getJwtRefreshToken() : authTokenDTO.getJwtToken();
+
+        int maxAge = this.getExpirationInSeconds(isRefreshToken);
+
+        return ResponseCookie.from(cookieName, tokenValue)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(maxAge)
+                .sameSite("Strict")
+                .build();
+    }
+
+    public void setCookies(AuthTokenDTO authTokenDTO, HttpServletResponse response) {
+        ResponseCookie accessTokenCookie = this.setResponseCookie(authTokenDTO, false);
+        response.addHeader("Set-Cookie", accessTokenCookie.toString());
+
+        ResponseCookie refreshTokenCookie = this.setResponseCookie(authTokenDTO, true);
+        response.addHeader("Set-Cookie", refreshTokenCookie.toString());
     }
 }
